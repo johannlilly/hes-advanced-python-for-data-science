@@ -1,0 +1,132 @@
+# Pset 0 Concepts
+
+2021-01-21
+
+Score for this attempt: 13 out of 25
+
+## Question 1
+
+Consider the following code, which has a final output of "3":
+
+```(lang-python)
+class A:
+    x = 5
+
+    def __call__(self):
+        return self.x
+
+a = A()
+a.x = 3
+A.x = 7
+
+>>> a()
+3
+```
+
+Which statement is true?
+
+- [x] Other instances of A will also return 3 when called
+- [ ] "self.x" first accesses the locally assigned variable (from "a.x"), and will access the inherited "A.x" if that is not found
+- [ ] Setting "a.x" is necessary (and for all other new instances of A) before working, since "__call__" references "self.x" and not the class variable "A.x"
+- [ ] Since "A.x = 7" occurred last, the output should have been 7; this is a bug
+
+## Question 2
+
+You have the following code in the provided directory structure, and receive the given error.  What best explains the issue?
+
+```(lang-sh)
+➜ tree
+.
+├── script.py
+└── src
+    └── mylib.py
+
+1 directory, 2 files
+```
+
+```(lang-sh)
+➜ python script.py
+Traceback (most recent call last):
+File "script.py", line 1, in <module>
+from src.mylib import f
+ImportError: No module named src.mylib
+```
+
+- [x] script.py does not properly set the python path
+- [ ] src is missing an __init__.py
+- [ ] script.py contains an error that prevents it from importing mylib
+- [ ] mylib.py contains an error that prevents it from being imported
+
+## Question 3
+
+The following appears to be a contradiction - the same function leaves an integer or tuple input unchanged, but modifies a list.  What best explains what is going on?
+
+```(lang-python)
+>>> def iadd(left, right):
+        left += right
+        return left
+
+>>> myint = 1
+>>> iadd(myint, 1)
+2
+>>> myint # Unchanged!
+1
+
+>>> mytup = (1,)
+>>> iadd(mytup, (1,))
+(1, 1)
+
+>>> mytup  # Unchanged!
+(1,)
+
+>>> mylist = [1]
+>>> iadd(mylist, [1])
+[1, 1]
+
+>>> mylist # Changed!
+[1, 1]
+```
+
+- [ ] Python is pass-by-reference
+- [ ] Python is pass-by-value
+- [x] The += operation will create a new instance for some types (immutables) but modify the instance for others
+- [ ] Python is pass-by-label
+
+## Question 4
+
+What is the biggest flaw in the following code?
+
+```
+def fib(x):
+    if x < 0:
+        print('Invalid value')
+
+    elif x < 2:
+        return x
+
+    else:
+        return fib(x - 1) + fib(x - 2)
+```
+
+- [x] In edge cases, the function returns None rather than raising an exception
+- [ ] The function uses a print() function rather than print keyword, meaning it is not py2 compliant
+- [ ] Python cannot call a function before it is defined
+- [ ] The function uses recursion rather than looping directly
+
+## Question 5
+
+How should you submit an assignment and answers quiz to Canvas?
+
+- [ ] By running submit.py on your computer
+- [ ] A CI/CD deployment will submit on your behalf
+- [ ] Pasting a github URL into canvas and answering the quiz questions
+- [x] By merging into your master branch on Github
+
+## Question 6
+
+What is the purpose of the pipfile/pipfile.lock?
+
+- [ ] To lock the code from being changed unintentionally
+- [x] To define a frozen set of dependencies and build a venv repeatably
+- [ ] For Github to inspect and provide links to your requirements
+- [ ] So the teaching staff know what tools you use for an assignment
